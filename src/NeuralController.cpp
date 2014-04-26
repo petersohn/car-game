@@ -10,6 +10,7 @@
 #include "NeuralController.hpp"
 #include "AIGameManager.hpp"
 #include "AsyncHelper.hpp"
+#include "SpinMutex.hpp"
 
 namespace car {
 
@@ -34,7 +35,7 @@ void NeuralController::run() {
 		Genomes& genomes = population.getPopulation();
 
 		std::promise<void> genomePromise;
-		std::mutex mutex;
+		SpinMutex mutex;
 		std::size_t tasksLeft{genomes.size()};
 
 		for (Genome& genome : genomes) {
@@ -55,7 +56,7 @@ void NeuralController::run() {
 
 					int value;
 					{
-						std::unique_lock<std::mutex> lock{mutex};
+						std::unique_lock<SpinMutex> lock{mutex};
 						value = --tasksLeft;
 					}
 					if (value == 0) {
