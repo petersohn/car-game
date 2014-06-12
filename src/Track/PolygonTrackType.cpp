@@ -20,7 +20,7 @@ std::function<Track()> PolygonTrackType::getTrackCreator(
 		const std::vector<std::string>& /*args*/) {
 	assert(getPolygonType());
 	auto pointParams = points | boost::adaptors::transformed(parsePoint);
-	std::vector<sf::Vector2f> points(pointParams.begin(), pointParams.end());
+	std::vector<Point> points(pointParams.begin(), pointParams.end());
 	return std::bind(getPolygonType()->getTrackCreator(variablesMap), points);
 }
 

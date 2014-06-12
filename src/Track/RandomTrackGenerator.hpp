@@ -10,8 +10,8 @@ namespace car { namespace track {
 
 class RandomTrackGenerator {
 public:
-	using Generator = std::function<Track(const std::vector<sf::Vector2f>&)>;
-	using PolygonGenerator = std::function<std::vector<sf::Vector2f>(RandomGenerator&)>;
+	using Generator = std::function<Track(const std::vector<Point>&)>;
+	using PolygonGenerator = std::function<std::vector<Point>(RandomGenerator&)>;
 
 	struct Params {
 		Generator generator;

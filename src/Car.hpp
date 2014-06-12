@@ -2,6 +2,7 @@
 #define CAR_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Point.hpp"
 
 namespace car {
 
@@ -10,7 +11,7 @@ public:
 
 
 	Car();
-	Car(const sf::Vector2f& position, float direction);
+	Car(const Point& position, float direction);
 
 	void setColor(const sf::Color& color);
 
@@ -32,17 +33,17 @@ public:
 	void increaseTurnToLeft(float deltaSeconds);
 	void dontTurn(float deltaSeconds);
 
-	const sf::Vector2f& getPosition() const;
-	const sf::Vector2f& getVelocity() const;
-	const sf::Vector2f& getOrientation() const;
+	const Point& getPosition() const;
+	const Point& getVelocity() const;
+	const Point& getOrientation() const;
 	float getSpeed() const;
 
-	const sf::Vector2f& getAcceleration() const;
+	const Point& getAcceleration() const;
 
-	const sf::Vector2f& getFrontLeftCorner() const;
-	const sf::Vector2f& getFrontRightCorner() const;
-	const sf::Vector2f& getRearLeftCorner() const;
-	const sf::Vector2f& getRearRightCorner() const;
+	const Point& getFrontLeftCorner() const;
+	const Point& getFrontRightCorner() const;
+	const Point& getRearLeftCorner() const;
+	const Point& getRearRightCorner() const;
 
 	float getTravelDistance() const;
 
@@ -87,16 +88,16 @@ private:
 	float brakeLevel = 0.0; // [0, 1]
 	float turnLevel = 0.0; // [-1, 1] => [left, right]
 
-	sf::Vector2f position = sf::Vector2f(0, 0); //unit is m
+	Point position = Point(0, 0); //unit is m
 
-	sf::Vector2f velocity = sf::Vector2f(0, 0); //in m/s
-	sf::Vector2f orientation = sf::Vector2f(1., 0.); //unit vector
-	sf::Vector2f acceleration; //recalculated with move();
+	Point velocity = Point(0, 0); //in m/s
+	Point orientation = Point(1., 0.); //unit vector
+	Point acceleration; //recalculated with move();
 
-	sf::Vector2f frontLeftCorner; //recalculated with move()
-	sf::Vector2f frontRightCorner; //recalculated with move()
-	sf::Vector2f rearLeftCorner; //recalculated with move()
-	sf::Vector2f rearRightCorner; //recalculated with move()
+	Point frontLeftCorner; //recalculated with move()
+	Point frontRightCorner; //recalculated with move()
+	Point rearLeftCorner; //recalculated with move()
+	Point rearRightCorner; //recalculated with move()
 
 	float travelDistance = 0.f; //recalculated with move()
 

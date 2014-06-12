@@ -157,12 +157,12 @@ void RealTimeGameManager::updateTelemetry() {
 	float currentTime = model.getCurrentTime();
 	const Car& car = model.getCar();
 
-	speedTelemetry.addDataPoint(sf::Vector2f(currentTime, car.getSpeed()));
-	accelerationTelemetry.addDataPoint(sf::Vector2f(currentTime, getLength(car.getAcceleration())));
-	angleTelemetry.addDataPoint(sf::Vector2f(currentTime, std::atan2(car.getOrientation().x, car.getOrientation().y)));
-	gasTelemetry.addDataPoint(sf::Vector2f(currentTime, car.getThrottle()));
-	brakeTelemetry.addDataPoint(sf::Vector2f(currentTime, car.getBrake()));
-	turnTelemetry.addDataPoint(sf::Vector2f(currentTime, car.getTurnLevel()));
+	speedTelemetry.addDataPoint(Point(currentTime, car.getSpeed()));
+	accelerationTelemetry.addDataPoint(Point(currentTime, getLength(car.getAcceleration())));
+	angleTelemetry.addDataPoint(Point(currentTime, std::atan2(car.getOrientation().x, car.getOrientation().y)));
+	gasTelemetry.addDataPoint(Point(currentTime, car.getThrottle()));
+	brakeTelemetry.addDataPoint(Point(currentTime, car.getBrake()));
+	turnTelemetry.addDataPoint(Point(currentTime, car.getTurnLevel()));
 }
 
 void RealTimeGameManager::drawGame() {

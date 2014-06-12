@@ -127,18 +127,18 @@ sf::Vector2<T> nearestPoint(const sf::Vector2<T>& point, const Line2<T>& line) {
 
 } //  unnamed namespace
 
-bool intersects(const Line2f& line1, const Line2f& line2, sf::Vector2f *outPtr) {
+bool intersects(const Line2f& line1, const Line2f& line2, Point *outPtr) {
 	return intersects<float>(line1, line2, outPtr);
 }
 
-bool intersectsRay(const Line2f& line, const sf::Vector2f& origin, const sf::Vector2f& direction, sf::Vector2f *outPtr) {
+bool intersectsRay(const Line2f& line, const Point& origin, const Point& direction, Point *outPtr) {
 	return intersectsRay<float>(line, origin, direction, outPtr);
 }
 
 } // namespace detail
 
 
-bool intersectsInfinite(const Line2f& line1, const Line2f& line2, sf::Vector2f *outPtr) {
+bool intersectsInfinite(const Line2f& line1, const Line2f& line2, Point *outPtr) {
 	return detail::intersectsInfinite<float>(line1, line2, outPtr);
 }
 
@@ -146,7 +146,7 @@ bool isParallel(const Line2f& line1, const Line2f& line2) {
 	return detail::isParallel<float>(line1, line2);
 }
 
-sf::Vector2f nearestPoint(const sf::Vector2f& point, const Line2f& line) {
+Point nearestPoint(const Point& point, const Line2f& line) {
 	return detail::nearestPoint<float>(point, line);
 }
 

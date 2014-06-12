@@ -9,7 +9,7 @@ namespace car { namespace track {
 class PointAdderRandomPolygonGeneratorType: public BasicRandomPolygonGeneratorType {
 public:
 	PointAdderRandomPolygonGeneratorType();
-	virtual std::function<std::vector<sf::Vector2f>(RandomGenerator&)>
+	virtual std::function<std::vector<Point>(RandomGenerator&)>
 			getPolygonCreator(
 					const boost::program_options::variables_map& variablesMap) override;
 	virtual std::string getHelpString() override;

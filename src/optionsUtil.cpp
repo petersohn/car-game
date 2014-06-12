@@ -9,7 +9,7 @@ namespace po = boost::program_options;
 
 namespace car {
 
-sf::Vector2f parsePoint(const std::string& param) {
+Point parsePoint(const std::string& param) {
 	namespace algo = boost::algorithm;
 
 	std::vector<std::string> tokens;

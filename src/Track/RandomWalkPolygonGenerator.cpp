@@ -70,7 +70,7 @@ void createPath(Graph& subgraph, const MatrixAdaptor& matrix,
 
 }
 
-std::vector<sf::Vector2f> RandomWalkPolygonGenerator::operator()(
+std::vector<Point> RandomWalkPolygonGenerator::operator()(
 		RandomGenerator& rng) const {
 	params.randomWalkAlgorithm->setRandomGenerator(rng);
 	MatrixAdaptor matrix{params.horizontalResolution, params.verticalResolution};
@@ -117,7 +117,7 @@ std::vector<sf::Vector2f> RandomWalkPolygonGenerator::operator()(
 	createPath(subgraph2, matrix, endCoordinate, beginCoordinate,
 			*params.randomWalkAlgorithm, resultCoordinates);
 
-	std::vector<sf::Vector2f> result;
+	std::vector<Point> result;
 	result.reserve(resultCoordinates.size());
 	const float originX = -0.5f * params.horizontalResolution * params.gridSize;
 	const float originY = -0.5f * params.verticalResolution * params.gridSize;

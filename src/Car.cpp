@@ -42,7 +42,7 @@ const float Car::turnSpeed = 6.5;
 
 Car::Car() {}
 
-Car::Car(const sf::Vector2f& position, float direction) :
+Car::Car(const Point& position, float direction) :
 		position(position), orientation(std::cos(direction), std::sin(direction)) {
 	updateCorners();
 }
@@ -55,7 +55,7 @@ void Car::move(float deltaSeconds) {
 
 	using namespace boost::math::float_constants;
 
-	sf::Vector2f velocityDirection = orientation;
+	Point velocityDirection = orientation;
 
 	velocity = orientation*getLength(velocity); //hack, TODO something
 
@@ -67,12 +67,12 @@ void Car::move(float deltaSeconds) {
 	float engineForce = std::max(0.f, std::min(power / speed, fEngineMax));
 	float brakeForce = fBrake * brakeLevel;
 
-	sf::Vector2f fTraction = velocityDirection * engineForce;
-	sf::Vector2f fBraking = -velocityDirection * brakeForce;
-	sf::Vector2f fDrag = -cDrag * velocity * speed;
-	sf::Vector2f fRollingResistance = -cRollingResistance * velocity;
+	Point fTraction = velocityDirection * engineForce;
+	Point fBraking = -velocityDirection * brakeForce;
+	Point fDrag = -cDrag * velocity * speed;
+	Point fRollingResistance = -cRollingResistance * velocity;
 
-	sf::Vector2f fLongtitudinal = fTraction + fBraking + fDrag + fRollingResistance;
+	Point fLongtitudinal = fTraction + fBraking + fDrag + fRollingResistance;
 
 	acceleration = fLongtitudinal / mass;
 
@@ -179,19 +179,19 @@ void Car::dontTurn(float deltaSeconds) {
 	}
 }
 
-const sf::Vector2f& Car::getFrontLeftCorner() const {
+const Point& Car::getFrontLeftCorner() const {
 	return frontLeftCorner;
 }
 
-const sf::Vector2f& Car::getFrontRightCorner() const {
+const Point& Car::getFrontRightCorner() const {
 	return frontRightCorner;
 }
 
-const sf::Vector2f& Car::getRearLeftCorner() const {
+const Point& Car::getRearLeftCorner() const {
 	return rearLeftCorner;
 }
 
-const sf::Vector2f& Car::getRearRightCorner() const {
+const Point& Car::getRearRightCorner() const {
 	return rearRightCorner;
 }
 
@@ -202,15 +202,15 @@ void Car::draw(sf::RenderWindow& window) const {
 	drawLine(window, rearLeftCorner, rearRightCorner, color);
 }
 
-const sf::Vector2f& Car::getPosition() const {
+const Point& Car::getPosition() const {
 	return position;
 }
 
-const sf::Vector2f& Car::getVelocity() const {
+const Point& Car::getVelocity() const {
 	return velocity;
 }
 
-const sf::Vector2f& Car::getOrientation() const {
+const Point& Car::getOrientation() const {
 	return orientation;
 }
 
@@ -222,7 +222,7 @@ float Car::getSpeed() const {
 	return getLength(velocity);
 }
 
-const sf::Vector2f& Car::getAcceleration() const {
+const Point& Car::getAcceleration() const {
 	return acceleration;
 }
 
@@ -241,10 +241,10 @@ void Car::updateCorners() {
 	const float carHalfWidth = carWidth/2.f;
 
 	//CM is the origin when drawing
-	frontLeftCorner = transform.transformPoint(sf::Vector2f(frontCMDistance, -carHalfWidth));
-	frontRightCorner = transform.transformPoint(sf::Vector2f(frontCMDistance, carHalfWidth));
-	rearLeftCorner = transform.transformPoint(sf::Vector2f(-rearCMDistance, -carHalfWidth));
-	rearRightCorner = transform.transformPoint(sf::Vector2f(-rearCMDistance, carHalfWidth));
+	frontLeftCorner = transform.transformPoint(Point(frontCMDistance, -carHalfWidth));
+	frontRightCorner = transform.transformPoint(Point(frontCMDistance, carHalfWidth));
+	rearLeftCorner = transform.transformPoint(Point(-rearCMDistance, -carHalfWidth));
+	rearRightCorner = transform.transformPoint(Point(-rearCMDistance, carHalfWidth));
 }
 
 }

@@ -36,7 +36,7 @@ protected:
 	//TODO something has to be done about who stores the variables concerning the number of
 	//inputs/outputs
 	unsigned rayCount = parameters.rayCount;
-	std::vector<boost::optional<sf::Vector2f>> rayPoints;
+	std::vector<boost::optional<Point>> rayPoints;
 
 	NeuralNetwork neuralNetwork = NeuralNetwork(parameters.hiddenLayerCount, parameters.neuronPerHiddenLayer,
 		   parameters.getInputNeuronCount(), parameters.outputNeuronCount, parameters.useRecurrence);

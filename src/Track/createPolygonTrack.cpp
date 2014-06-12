@@ -15,7 +15,7 @@ std::vector<Line2f> closeEdges(std::vector<Line2f>& edge) {
 		auto& line1 = edge[i];
 		auto& line2 = edge[(i + 1) % edge.size()];
 
-		sf::Vector2f intersectionPoint;
+		Point intersectionPoint;
 		if (intersects(line1, line2, &intersectionPoint)) {
 			line1.end = intersectionPoint;
 			line2.start = intersectionPoint;
@@ -27,7 +27,7 @@ std::vector<Line2f> closeEdges(std::vector<Line2f>& edge) {
 }
 
 void createEdges(std::vector<Line2f>& rightEdge, std::vector<Line2f>& leftEdge,
-		float trackWidth, const std::vector<sf::Vector2f>& points) {
+		float trackWidth, const std::vector<Point>& points) {
 	const float distance = trackWidth / 2.f;
 
 	for (std::size_t i = 0; i < points.size(); ++i) {
@@ -65,7 +65,7 @@ Track createTrack(std::vector<Line2f>& rightEdge, std::vector<Line2f>& leftEdge,
 
 		for (float position = 0.f; position < length; position += checkpointDistance) {
 			auto base = line1.start + roadDirection * position;
-			sf::Vector2f intersectionPoint;
+			Point intersectionPoint;
 
 			if (intersectsRay(line2, base, checkpointDirection, &intersectionPoint) &&
 					!(equals(intersectionPoint.x, line2.start.x, tooClose) &&
@@ -84,7 +84,7 @@ Track createTrack(std::vector<Line2f>& rightEdge, std::vector<Line2f>& leftEdge,
 
 }
 
-Track createPolygonTrack(float checkpointDistance, float trackWidth, const std::vector<sf::Vector2f>& points) {
+Track createPolygonTrack(float checkpointDistance, float trackWidth, const std::vector<Point>& points) {
 	if (points.size() < 2) {
 		throw TrackCreatorError{"To few points"};
 	}

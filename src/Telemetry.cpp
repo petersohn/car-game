@@ -11,7 +11,7 @@ float Telemetry::horizontalScaling = 10.f;
 float Telemetry::horizontalResolution = 0.02f;
 std::size_t Telemetry::maxNumberOfPoints = 10000;
 
-void Telemetry::addDataPoint(const sf::Vector2f& point) {
+void Telemetry::addDataPoint(const Point& point) {
 	if (!dataPoints.empty() && std::abs(point.x - dataPoints.back().x) < horizontalResolution) {
 		return;
 	}
@@ -37,9 +37,9 @@ void Telemetry::drawAsGraph(sf::RenderWindow& window, const sf::FloatRect& posit
 
    	if (automaticBoundsDetection) {
 		minData = std::min_element(dataPoints.begin(), dataPoints.end(),
-			[](const sf::Vector2f& lhs, const sf::Vector2f& rhs) { return lhs.y < rhs.y; })->y;
+			[](const Point& lhs, const Point& rhs) { return lhs.y < rhs.y; })->y;
 		maxData = std::max_element(dataPoints.begin(), dataPoints.end(),
-			[](const sf::Vector2f& lhs, const sf::Vector2f& rhs) { return lhs.y < rhs.y; })->y;
+			[](const Point& lhs, const Point& rhs) { return lhs.y < rhs.y; })->y;
 	}
 
 	if ( minData - maxData == 0.0 ) {
@@ -51,7 +51,7 @@ void Telemetry::drawAsGraph(sf::RenderWindow& window, const sf::FloatRect& posit
 	if (scrolling) {
 		auto firstPositionToDraw = dataPoints.back().x - position.width / horizontalScaling;
 		it = std::find_if(dataPoints.begin(), dataPoints.end(),
-				[firstPositionToDraw](const sf::Vector2f& value)
+				[firstPositionToDraw](const Point& value)
 				{ return value.x >= firstPositionToDraw; });
 		if (it == dataPoints.end()) {
 			// this should never happen
@@ -61,11 +61,11 @@ void Telemetry::drawAsGraph(sf::RenderWindow& window, const sf::FloatRect& posit
 
 	auto startingPoint = it->x;
 
-	sf::Vector2f lastPoint(leftSide,
+	Point lastPoint(leftSide,
 			(-maxData*minUp + minData*maxUp + (minUp - maxUp)*it->y) / (minData - maxData));
 
 	for ( ++it; it != dataPoints.end(); ++it ) {
-		sf::Vector2f currentPoint(
+		Point currentPoint(
 				leftSide + (it->x - startingPoint) * horizontalScaling,
 				(-maxData*minUp + minData*maxUp + (minUp - maxUp)*it->y) / (minData - maxData));
 		drawLine(window, lastPoint, currentPoint, color);

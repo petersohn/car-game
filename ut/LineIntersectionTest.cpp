@@ -160,10 +160,10 @@ BOOST_AUTO_TEST_CASE(parallel_lines) {
 }
 
 struct CoincidentLinesFixture {
-	sf::Vector2f p1{1.f, 0.f};
-	sf::Vector2f p2{3.f, 4.f};
-	sf::Vector2f p3{4.f, 6.f};
-	sf::Vector2f p4{5.f, 8.f};
+	Point p1{1.f, 0.f};
+	Point p2{3.f, 4.f};
+	Point p3{4.f, 6.f};
+	Point p4{5.f, 8.f};
 
 	void checkIntersection(const Line2f& line1, const Line2f& line2) {
 		LineIntersection<float> intersection{line1, line2};

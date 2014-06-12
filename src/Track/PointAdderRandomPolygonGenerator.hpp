@@ -13,8 +13,8 @@ public:
 		int numberOfPoints = 10;
 		float inset = 0.2f;
 
-		sf::Vector2f corner1{-60.f, -60.f};
-		sf::Vector2f corner2{60.f, 60.f};
+		Point corner1{-60.f, -60.f};
+		Point corner2{60.f, 60.f};
 	};
 
 	PointAdderRandomPolygonGenerator(const Params& params): params(params) {
@@ -23,7 +23,7 @@ public:
 		}
 	}
 
-	std::vector<sf::Vector2f> operator()(RandomGenerator& rnd) const;
+	std::vector<Point> operator()(RandomGenerator& rnd) const;
 private:
 	Params params;
 };

@@ -64,7 +64,7 @@ Weights GameManager::callNeuralNetwork() {
 	const float speedDamping = 5.f;
 	const float checkpointDirectionDamping = 0.2f;
 
-	const sf::Vector2f& carPosition = model.getCar().getPosition();
+	const Point& carPosition = model.getCar().getPosition();
 	for (unsigned i = 0; i < rayCount; ++i) {
 		auto rayPoint = rayPoints[i];
 		if (rayPoint) {

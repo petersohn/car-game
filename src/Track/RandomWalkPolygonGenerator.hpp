@@ -22,7 +22,7 @@ public:
 	{
 	}
 
-	std::vector<sf::Vector2f> operator()(RandomGenerator& rng) const;
+	std::vector<Point> operator()(RandomGenerator& rng) const;
 private:
 	Params params;
 };

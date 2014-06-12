@@ -4,13 +4,14 @@
 #include <deque>
 
 #include <SFML/Graphics.hpp>
+#include "Point.hpp"
 
 namespace car {
 
 class Telemetry {
 public:
 
-	void addDataPoint(const sf::Vector2f& point);
+	void addDataPoint(const Point& point);
 	void drawAsGraph(sf::RenderWindow& driver, const sf::FloatRect& position, const sf::Color& color = sf::Color::White);
 
 	void setAutomaticBoundsDetection(bool value);
@@ -21,7 +22,7 @@ private:
 	bool scrolling = true;
 	float minBound = 0.0;
 	float maxBound = 1.0;
-	std::deque<sf::Vector2f> dataPoints;
+	std::deque<Point> dataPoints;
 
 	static float horizontalScaling;
 	static float horizontalResolution;

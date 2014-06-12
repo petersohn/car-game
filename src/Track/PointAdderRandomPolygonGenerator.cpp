@@ -6,7 +6,7 @@ namespace car { namespace track {
 
 namespace {
 
-std::size_t findNearestLine(const std::vector<sf::Vector2f>& points, const sf::Vector2f& referencePoint) {
+std::size_t findNearestLine(const std::vector<Point>& points, const Point& referencePoint) {
 	std::size_t n = points.size();
 
 	std::vector<float> distanceSquares(n);
@@ -24,15 +24,15 @@ std::size_t findNearestLine(const std::vector<sf::Vector2f>& points, const sf::V
 
 }
 
-std::vector<sf::Vector2f> PointAdderRandomPolygonGenerator::operator()(
+std::vector<Point> PointAdderRandomPolygonGenerator::operator()(
 		RandomGenerator& rng) const {
 
-	sf::Vector2f startEdge1 = params.corner1 * params.inset +
+	Point startEdge1 = params.corner1 * params.inset +
 			params.corner2 * (1.f - params.inset);
-	sf::Vector2f startEdge2 = params.corner2 * params.inset +
+	Point startEdge2 = params.corner2 * params.inset +
 			params.corner1 * (1.f - params.inset);
 
-	std::vector<sf::Vector2f> points{
+	std::vector<Point> points{
 		startEdge1, {startEdge2.x, startEdge1.y},
 		startEdge2, {startEdge1.x, startEdge2.y}
 	};
@@ -44,7 +44,7 @@ std::vector<sf::Vector2f> PointAdderRandomPolygonGenerator::operator()(
 			std::max(params.corner1.y, params.corner2.y)};
 
 	for (int i = 4; i < params.numberOfPoints; ++i) {
-		sf::Vector2f newPoint{distX(rng), distY(rng)};
+		Point newPoint{distX(rng), distY(rng)};
 
 		int index = findNearestLine(points, newPoint) + 1;
 

@@ -58,32 +58,32 @@ bool Model::hasCarCollided() const {
 	return isCarCollided;
 }
 
-std::vector<boost::optional<sf::Vector2f>> Model::getRayPoints(unsigned count) const {
+std::vector<boost::optional<Point>> Model::getRayPoints(unsigned count) const {
 
 	using namespace boost::math::float_constants;
 
 	const float maxViewDistance = 50.f;
 
 	//right, (1, 0) is to the front
-	std::vector<sf::Vector2f> directions(count);
+	std::vector<Point> directions(count);
 	for (unsigned i = 0; i < count; ++i) {
 		directions[i] = {1, i*4.f/count - 2.f};
 	}
 
 	//rotate them, so they align with the current rotation of the car
-	const sf::Vector2f& carOrientation = car.getOrientation();
+	const Point& carOrientation = car.getOrientation();
 
 	sf::Transform transform;
 	transform.rotate(std::atan2(carOrientation.y, carOrientation.x) * 180.f/pi);
 
-	for ( sf::Vector2f& v : directions ) {
+	for ( Point& v : directions ) {
 		v = transform.transformPoint(v);
 	}
 
-	std::vector<boost::optional<sf::Vector2f>> rayPoints;
+	std::vector<boost::optional<Point>> rayPoints;
 	rayPoints.reserve(count);
 
-	for ( const sf::Vector2f& v : directions ) {
+	for ( const Point& v : directions ) {
 		rayPoints.push_back(track.collideWithRay(car.getPosition(), v, maxViewDistance));
 	}
 
@@ -201,7 +201,7 @@ void Model::drawTrack(sf::RenderWindow& window, bool drawCheckpoints) const {
 	}
 }
 
-sf::Vector2f Model::getCheckpointDirection() const {
+Point Model::getCheckpointDirection() const {
 	using namespace boost::math::float_constants;
 	if (currentCheckpoint < 0) {
 		return {};

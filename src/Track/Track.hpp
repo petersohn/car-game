@@ -28,7 +28,7 @@ public:
 	void addLine(const Line2f& line);
 	void addCheckpoint(const Line2f& line);
 
-	sf::Vector2f collideWithRay(const sf::Vector2f& origin, const sf::Vector2f& direction,
+	Point collideWithRay(const Point& origin, const Point& direction,
 			float maxViewDistance) const;
 
 	bool collidesWith(const Line2f& line) const;
@@ -43,13 +43,13 @@ public:
 	void drawBoundary(sf::RenderWindow& window) const;
 	void drawCheckpoints(sf::RenderWindow& window, int highlightCheckpoint = -1) const;
 
-	void setOrigin(const sf::Vector2f& point, float direction);
+	void setOrigin(const Point& point, float direction);
 	Car createCar() const;
 private:
 	typedef std::vector<Line2f> Lines;
 	Lines lines;
 	Lines checkpoints;
-	sf::Vector2f startingPoint;
+	Point startingPoint;
 	float startingDirection = 0.f;
 };
 

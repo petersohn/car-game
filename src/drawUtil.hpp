@@ -8,7 +8,7 @@
 namespace car {
 
 inline
-void drawLine(sf::RenderWindow& window, const sf::Vector2f& a, const sf::Vector2f& b, const sf::Color& color = sf::Color::White) {
+void drawLine(sf::RenderWindow& window, const Point& a, const Point& b, const sf::Color& color = sf::Color::White) {
 	sf::Vertex v[] = { sf::Vertex(a, color), sf::Vertex(b, color) };
 	window.draw(v, 2, sf::Lines);
 }

@@ -5,6 +5,7 @@
 #include <cassert>
 
 #include <SFML/Graphics.hpp>
+#include "Point.hpp"
 
 namespace car {
 

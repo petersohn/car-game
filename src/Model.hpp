@@ -31,7 +31,7 @@ public:
 
 	bool hasCarCollided() const;
 
-	std::vector<boost::optional<sf::Vector2f>> getRayPoints(unsigned count) const;
+	std::vector<boost::optional<Point>> getRayPoints(unsigned count) const;
 
 	unsigned getNumberOfCrossedCheckpoints() const;
 
@@ -40,7 +40,7 @@ public:
 	void drawCar(sf::RenderWindow& window) const;
 	void drawTrack(sf::RenderWindow& window, bool drawCheckpoints = true) const;
 
-	sf::Vector2f getCheckpointDirection() const;
+	Point getCheckpointDirection() const;
 
 private:
 	void collideCar();

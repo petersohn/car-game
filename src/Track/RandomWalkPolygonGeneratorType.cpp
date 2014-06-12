@@ -26,7 +26,7 @@ RandomWalkPolygonGeneratorType::RandomWalkPolygonGeneratorType():
 			;
 }
 
-std::function<std::vector<sf::Vector2f>(RandomGenerator&)>
+std::function<std::vector<Point>(RandomGenerator&)>
 RandomWalkPolygonGeneratorType::getPolygonCreator(
 		const boost::program_options::variables_map& /*variablesMap*/) {
 	generatorParams.randomWalkAlgorithm = randomWalk::getRandomWalk(randomWalkAlgorithm);

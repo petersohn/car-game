@@ -11,7 +11,7 @@ Car Track::createCar() const {
 	return Car{startingPoint, startingDirection};
 }
 
-void Track::setOrigin(const sf::Vector2f& point, float direction) {
+void Track::setOrigin(const Point& point, float direction) {
 	startingPoint = point;
 	startingDirection = direction;
 }
@@ -35,11 +35,11 @@ bool Track::collidesWith(const Line2f& line) const {
 	return false;
 }
 
-sf::Vector2f Track::collideWithRay(const sf::Vector2f& origin, const sf::Vector2f& direction,
+Point Track::collideWithRay(const Point& origin, const Point& direction,
 		float maxViewDistance) const {
 	Line2f lineToCheck{origin, origin + normalize(direction) * maxViewDistance};
 	for ( const Line2f& trackLine : lines ) {
-		sf::Vector2f out;
+		Point out;
 		if ( intersects(trackLine, lineToCheck, &out) ) {
 			lineToCheck.end = out;
 		}
@@ -83,7 +83,7 @@ sf::FloatRect Track::getDimensions() const {
 		return sf::FloatRect{};
 	}
 
-	sf::FloatRect result{lines[0].start, sf::Vector2f{0, 0}};
+	sf::FloatRect result{lines[0].start, Point{0, 0}};
 	for (const Line2f& line : lines) {
 		addToBoundingBox(result, line.start);
 		addToBoundingBox(result, line.end);
@@ -98,11 +98,11 @@ struct CheckedLine {
 	bool end = false;
 };
 
-bool checkLineEndpoint(const sf::Vector2f& endpoint,
-		const sf::Vector2f& intersection, float toleranceSquare,
+bool checkLineEndpoint(const Point& endpoint,
+		const Point& intersection, float toleranceSquare,
 		bool& alreadyChecked) {
 	if (alreadyChecked ||
-			getLengthSQ(sf::Vector2f{endpoint.x - intersection.x,
+			getLengthSQ(Point{endpoint.x - intersection.x,
 					endpoint.y - intersection.y}) > toleranceSquare) {
 		return false;
 	}
@@ -125,7 +125,7 @@ void Track::check() const
 		}
 
 		for ( std::size_t j = i + 1; j < lines.size(); ++j ) {
-			sf::Vector2f p;
+			Point p;
 			if (intersects(lines[i], lines[j], &p)) {
 				if (!(
 						(checkLineEndpoint(lines[i].start, p, toleranceSquare,

@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(resizeToEnclose_square_tall) {
 BOOST_AUTO_TEST_CASE(addToBoundingBox_point_inside) {
 	sf::FloatRect rect{3, 4, 5, 7};
 
-	addToBoundingBox(rect, sf::Vector2f{4, 5});
+	addToBoundingBox(rect, Point{4, 5});
 
 	BOOST_CHECK_CLOSE(rect.left, 3.f, 0.001);
 	BOOST_CHECK_CLOSE(rect.top, 4.f, 0.001);
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(addToBoundingBox_point_inside) {
 BOOST_AUTO_TEST_CASE(addToBoundingBox_point_left) {
 	sf::FloatRect rect{3, 4, 5, 7};
 
-	addToBoundingBox(rect, sf::Vector2f{2, 5});
+	addToBoundingBox(rect, Point{2, 5});
 
 	BOOST_CHECK_CLOSE(rect.left, 2.f, 0.001);
 	BOOST_CHECK_CLOSE(rect.top, 4.f, 0.001);
