@@ -1,8 +1,9 @@
 #ifndef LINE_HPP
 #define LINE_HPP
 
+#include <boost/geometry.hpp>
+#include <boost/geometry/core/tag.hpp>
 #include "Point.hpp"
-
 #include "mathUtil.hpp"
 
 namespace car {
@@ -20,6 +21,52 @@ struct Line2 {
 };
 
 typedef Line2<float> Line2f;
+
+} // namespace car
+
+namespace boost { namespace geometry { namespace traits {
+
+template <typename T>
+struct tag<car::Line2<T>> {
+	using type = segment_tag;
+};
+
+template <typename T>
+struct point_type<car::Line2<T>> {
+	using type = sf::Vector2<T>;
+};
+
+template <typename T>
+struct indexed_access<car::Line2<T>, 0, 0> {
+	static inline T get(const car::Line2<T> line) {
+		return line.start.x;
+	}
+};
+
+template <typename T>
+struct indexed_access<car::Line2<T>, 0, 1> {
+	static inline T get(const car::Line2<T> line) {
+		return line.start.y;
+	}
+};
+
+template <typename T>
+struct indexed_access<car::Line2<T>, 1, 0> {
+	static inline T get(const car::Line2<T> line) {
+		return line.end.x;
+	}
+};
+
+template <typename T>
+struct indexed_access<car::Line2<T>, 1, 1> {
+	static inline T get(const car::Line2<T> line) {
+		return line.end.y;
+	}
+};
+
+}}} // namespace boost::geometry::traits
+
+namespace car {
 
 namespace detail {
 bool intersects(const Line2f& line1, const Line2f& line2, Point *outPtr);
