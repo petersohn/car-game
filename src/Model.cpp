@@ -2,6 +2,7 @@
 #include <assert.h>
 
 #include <boost/math/constants/constants.hpp>
+#include <boost/geometry/algorithms/correct.hpp>
 
 #include "Model.hpp"
 #include "drawUtil.hpp"
@@ -105,11 +106,14 @@ void Model::advanceTime(float deltaSeconds) {
 }
 
 void Model::collideCar() {
+	Box carBoundingBox{car.getFrontLeftCorner(), car.getRearRightCorner()};
+	boost::geometry::correct(carBoundingBox);
+	auto indices = track.getLineIndices(carBoundingBox);
 	isCarCollided =
-		track.collidesWith(Line2f(car.getFrontLeftCorner(), car.getFrontRightCorner())) ||
-		track.collidesWith(Line2f(car.getFrontLeftCorner(), car.getRearLeftCorner())) ||
-		track.collidesWith(Line2f(car.getFrontRightCorner(), car.getRearRightCorner())) ||
-		track.collidesWith(Line2f(car.getRearLeftCorner(), car.getRearRightCorner()));
+		track.collidesWith(Line2f(car.getFrontLeftCorner(), car.getFrontRightCorner()), indices) ||
+		track.collidesWith(Line2f(car.getFrontLeftCorner(), car.getRearLeftCorner()), indices) ||
+		track.collidesWith(Line2f(car.getFrontRightCorner(), car.getRearRightCorner()), indices) ||
+		track.collidesWith(Line2f(car.getRearLeftCorner(), car.getRearRightCorner()), indices);
 
 	if (isCarCollided) {
 		car.setColor(sf::Color::Red);

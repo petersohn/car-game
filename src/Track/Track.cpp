@@ -1,5 +1,6 @@
 
 #include "Track.hpp"
+#include <boost/geometry/algorithms/envelope.hpp>
 #include "Car.hpp"
 #include "drawUtil.hpp"
 #include "mathUtil.hpp"
@@ -19,6 +20,7 @@ void Track::setOrigin(const Point& point, float direction) {
 
 void Track::addLine(const Line2f& line) {
 	lines.push_back(line);
+	rtree.reset();
 }
 
 void Track::addCheckpoint(const Line2f& line) {
@@ -35,12 +37,22 @@ bool Track::collidesWith(const Line2f& line) const {
 	return false;
 }
 
+bool Track::collidesWith(const Line2f& line, const LineIndices& lineIndices) const {
+	for (auto index: lineIndices) {
+		if ( intersects(line, lines[index]) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
 Point Track::collideWithRay(const Point& origin, const Point& direction,
 		float maxViewDistance) const {
 	Line2f lineToCheck{origin, origin + normalize(direction) * maxViewDistance};
-	for ( const Line2f& trackLine : lines ) {
+
+	for (auto index: getLineIndices(boost::geometry::return_envelope<Box>(lineToCheck))) {
 		Point out;
-		if ( intersects(trackLine, lineToCheck, &out) ) {
+		if ( intersects(lines[index], lineToCheck, &out) ) {
 			lineToCheck.end = out;
 		}
 	}
@@ -142,6 +154,15 @@ void Track::check() const
 			}
 		}
 	}
+}
+
+void Track::createRtree() const {
+	std::vector<RtreeValue> values;
+	values.reserve(lines.size());
+	for (std::size_t i = 0; i < lines.size(); ++i) {
+		values.emplace_back(boost::geometry::return_envelope<Box>(lines[i]), i);
+	}
+	rtree.reset(new Rtree{values});
 }
 
 }} /* namespace car::track */

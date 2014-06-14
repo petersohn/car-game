@@ -117,3 +117,5 @@ bool intersectsRay(const Line2f& line, const Point& origin,
 }
 
 #endif /* !LINE_HPP */
+
+
