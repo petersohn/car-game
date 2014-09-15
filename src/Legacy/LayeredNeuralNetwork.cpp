@@ -1,5 +1,5 @@
 
-#include "NeuralNetwork.hpp"
+#include "LayeredNeuralNetwork.hpp"
 
 #include <cassert>
 #include <cmath>
@@ -10,36 +10,7 @@
 
 namespace car {
 
-NeuralNetwork::NeuralNetwork(
-		unsigned hiddenLayerCount,
-		unsigned hiddenLayerNeuronCount,
-		unsigned inputNeuronCount,
-		unsigned outputNeuronCount,
-		bool useRecurrence) : inputNeuronCount(inputNeuronCount)
-{
-	if (hiddenLayerCount > 0) {
-		layers.push_back(NeuronLayer(hiddenLayerNeuronCount, inputNeuronCount, useRecurrence));
-		for (unsigned i = 0; i < hiddenLayerCount - 1; ++i) {
-			layers.push_back(NeuronLayer(hiddenLayerNeuronCount, hiddenLayerNeuronCount, useRecurrence));
-		}
-		layers.push_back(NeuronLayer(outputNeuronCount, hiddenLayerNeuronCount, useRecurrence));
-	} else {
-		layers.push_back(NeuronLayer(outputNeuronCount, inputNeuronCount, useRecurrence));
-	}
-}
-
-unsigned NeuralNetwork::getWeightCountForNetwork(
-		unsigned hiddenLayerCount,
-		unsigned hiddenLayerNeuronCount,
-		unsigned inputNeuronCount,
-		unsigned outputNeuronCount,
-		bool useRecurrence)
-{
-	//we shouldn't create an object here, but this is quicker for now
-	return NeuralNetwork(hiddenLayerCount, hiddenLayerNeuronCount, inputNeuronCount, outputNeuronCount, useRecurrence).getWeightCount();
-}
-
-Weights NeuralNetwork::getWeights() const {
+Weights LayeredNeuralNetwork::getWeights() const {
 	Weights result;
 	for (const NeuronLayer& layer : layers) {
 		for (const Neuron& neuron : layer.neurons) {
@@ -51,7 +22,7 @@ Weights NeuralNetwork::getWeights() const {
 	return result;
 }
 
-void NeuralNetwork::setWeights(const Weights& weights) {
+void LayeredNeuralNetwork::setWeights(const Weights& weights) {
 	assert(weights.size() == getWeightCount());
 	unsigned weightIndex = 0;
 	for (NeuronLayer& layer : layers) {
@@ -63,7 +34,7 @@ void NeuralNetwork::setWeights(const Weights& weights) {
 	}
 }
 
-unsigned NeuralNetwork::getWeightCount() const {
+unsigned LayeredNeuralNetwork::getWeightCount() const {
 	unsigned count = 0;
 	for (const NeuronLayer& layer : layers) {
 		for (const Neuron& neuron : layer.neurons) {
@@ -73,48 +44,28 @@ unsigned NeuralNetwork::getWeightCount() const {
 	return count;
 }
 
-unsigned NeuralNetwork::getInputNeuronCount() const {
+unsigned LayeredNeuralNetwork::getInputNeuronCount() const {
 	return inputNeuronCount;
 }
 
-unsigned NeuralNetwork::getOutputNeuronCount() const {
+unsigned LayeredNeuralNetwork::getOutputNeuronCount() const {
 	return layers.back().neurons.size();
 }
 
-Weights NeuralNetwork::evaluateInput(const Weights& input) {
-	assert(input.size() == inputNeuronCount);
-
-	Weights nextInput = input;
-	Weights output;
-	for (NeuronLayer& layer : layers) {
-		output.clear();
-		for (Neuron& neuron : layer.neurons) {
-			output.push_back(neuron.run(nextInput));
-		}
-		nextInput = output; //we could move here probably
-	}
-	return output;
+unsigned LayeredNeuralNetwork::getHiddenLayerCount() const {
+	return layers.size() - 1;
 }
 
-NeuralNetwork loadNeuralNetworkFromFile(const std::string& fileName) {
-	NeuralNetwork result;
-
-	std::ifstream ifs(fileName);
-	boost::archive::text_iarchive ia(ifs);
-	ia >> result;
-
-	return result;
+unsigned LayeredNeuralNetwork::getHiddenLayerNeuronCount() const {
+	return layers.size() > 1 ? layers[0].neurons.size() : 0;
 }
 
-std::string NeuralNetwork::getExternalParameter(const std::string& key) const {
-	auto it = externalParameters.find(key);
-	//std::cerr << "get " << key << " -> " << (it == externalParameters.end() ? "" : it->second) << std::endl;
-	return it == externalParameters.end() ? "" : it->second;
+bool LayeredNeuralNetwork::isRecurrent() const {
+	return static_cast<bool>(layers[0].neurons[0].recurrence);
 }
 
-void NeuralNetwork::setExternalParameter(std::string key, std::string value) {
-	//std::cerr << "set " << key << " -> " << value << std::endl;
-	externalParameters[std::move(key)] = std::move(value);
+const std::map<std::string, std::string>& LayeredNeuralNetwork::getExternalParameters() const {
+	return externalParameters;
 }
 
 }
