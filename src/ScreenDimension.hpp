@@ -3,9 +3,11 @@
 
 #include <boost/variant.hpp>
 #include <SFML/Graphics.hpp>
-#include "ExplicitType.hpp"
+#include "util/ExplicitType.hpp"
 
 namespace car {
+
+using util::ExplicitType;
 
 using Meters = ExplicitType<struct tag_Meters, float>;
 using Percent = ExplicitType<struct tag_Percent, float>;

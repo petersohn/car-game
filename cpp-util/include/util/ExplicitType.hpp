@@ -1,10 +1,10 @@
-#ifndef SRC_EXPLICITTYPE_HPP
-#define SRC_EXPLICITTYPE_HPP
+#ifndef CPP_UTIL_INCLUDE_UTIL_EXPLICITTYPE_HPP
+#define CPP_UTIL_INCLUDE_UTIL_EXPLICITTYPE_HPP
 
 #include <utility>
 #include <iostream>
 
-namespace car {
+namespace util {
 
 template <typename Tag, typename T>
 class ExplicitType {
@@ -53,4 +53,4 @@ std::istream& operator>>(std::istream& is, const ExplicitType<Tag, T>& t) {
 }
 
 
-#endif /* SRC_EXPLICITTYPE_HPP */
+#endif /* CPP_UTIL_INCLUDE_UTIL_EXPLICITTYPE_HPP */
