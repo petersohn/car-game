@@ -34,6 +34,7 @@ LIBS += -lboost_system
 LIBS += -lboost_filesystem
 LIBS += -lboost_thread
 LIBS += -llua5.1
+LIBS += -pthread
 LIBS += @(PROFILER_LIBS)
 
 LD_FLAGS += -L$(CPP_UTIL_DIR)/lib
